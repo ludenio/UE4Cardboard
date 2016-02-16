@@ -1,0 +1,21 @@
+{
+	"FileVersion" : 3,
+
+	"FriendlyName" : "UE4Cardboard",
+	"Version" : 1,
+	"VersionName" : "1.0",
+	"CreatedBy" : "NivalVR",
+	"CreatedByURL" : "http://nivalvr.com",
+	"EngineVersion" : "4.2.0",
+	"Description" : "UE4 plugin for simple cardboard usage with distortition.",
+	"Category" : "Virtual Reality",
+	"EnabledByDefault" : false,
+
+	"Modules" :
+	[
+		{
+			"Name" : "UE4Cardboard",
+			"Type" : "Runtime"
+		}
+	]
+}
