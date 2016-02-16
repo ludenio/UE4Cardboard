@@ -19,3 +19,5 @@ Whenever the UE4Cardboard plugin is active it will be built into the Android pac
 Tested on UE 4.10.2 with Nexus5 and Galaxy Note4.
 
 Lenses might be stretched slightly more than necessary on some devices due to the lack of detecting certain device features from UE plugin system. If done correctly those parameters should scale the distortion mesh accordingly (*FSimpleHMD::XformDistortionMesh(DetectedX, DetectedY)*).
+
+![Example](http://i.imgur.com/hufwLqR.jpg "Example")
