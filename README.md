@@ -4,6 +4,8 @@
 
 Simple plugin based on SimpleHMD to allow head mounted display with lens distortion. 
 
+![Example](http://i.imgur.com/hufwLqR.jpg "Example")
+
 #### How to install:
 
 Close UE4 and extract archive content to a folder named Plugins inside your project directory. 
@@ -27,4 +29,3 @@ Lenses might be stretched slightly more than necessary on some devices due to th
 #### Known Issues:
 Some post-processing effects can conflict with lens correction. If only one eye is rendered please make sure to disable/delete post-processing volumes. If no lens correction occurs please make sure that Mobile HDR is ENABLED. Example https://github.com/NivalVR/UE4Cardboard/issues/1
 
-![Example](http://i.imgur.com/hufwLqR.jpg "Example")
