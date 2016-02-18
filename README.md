@@ -24,4 +24,7 @@ Tested on UE 4.10.2 with Nexus5 and Galaxy Note4.
 
 Lenses might be stretched slightly more than necessary on some devices due to the lack of detecting certain device features from UE plugin system. If done correctly those parameters should scale the distortion mesh accordingly (*FSimpleHMD::XformDistortionMesh(DetectedX, DetectedY)*).
 
+#### Known Issues:
+Some post-processing effects can conflict with lens correction. If only one eye is rendered please make sure to disable/delete post-processing volumes. If no lens correction occurs please make sure that Mobile HDR is ENABLED. Example https://github.com/NivalVR/UE4Cardboard/issues/1
+
 ![Example](http://i.imgur.com/hufwLqR.jpg "Example")
