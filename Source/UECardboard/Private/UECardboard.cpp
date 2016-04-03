@@ -1,7 +1,7 @@
 // Copyright 1998-2015 Epic Games, Inc. All Rights Reserved.
 
-#include "SimpleHMDPrivatePCH.h"
-#include "SimpleHMD.h"
+#include "UECardboardPrivatePCH.h"
+#include "UECardboard.h"
 #include "RendererPrivate.h"
 #include "ScenePrivate.h"
 #include "PostProcess/PostProcessHMD.h"
@@ -14,22 +14,22 @@
 // SimpleHMD Plugin Implementation
 //---------------------------------------------------
 
-class FSimpleHMDPlugin : public ISimpleHMDPlugin
+class FUECardboardPlugin : public IUECardboardPlugin
 {
 	/** IHeadMountedDisplayModule implementation */
 	virtual TSharedPtr< class IHeadMountedDisplay, ESPMode::ThreadSafe > CreateHeadMountedDisplay() override;
 
 	FString GetModulePriorityKeyName() const override
 	{
-		return FString(TEXT("SimpleHMD"));
+		return FString(TEXT("UECardboard"));
 	}
 };
 
-IMPLEMENT_MODULE( FSimpleHMDPlugin, UE4Cardboard )
+IMPLEMENT_MODULE(FUECardboardPlugin, UE4Cardboard )
 
-TSharedPtr< class IHeadMountedDisplay, ESPMode::ThreadSafe > FSimpleHMDPlugin::CreateHeadMountedDisplay()
+TSharedPtr< class IHeadMountedDisplay, ESPMode::ThreadSafe > FUECardboardPlugin::CreateHeadMountedDisplay()
 {
-	TSharedPtr< FSimpleHMD, ESPMode::ThreadSafe > SimpleHMD( new FSimpleHMD() );
+	TSharedPtr< FUECardboard, ESPMode::ThreadSafe > SimpleHMD( new FUECardboard() );
 	if( SimpleHMD->IsInitialized() )
 	{
 		return SimpleHMD;
@@ -42,22 +42,22 @@ TSharedPtr< class IHeadMountedDisplay, ESPMode::ThreadSafe > FSimpleHMDPlugin::C
 // SimpleHMD IHeadMountedDisplay Implementation
 //---------------------------------------------------
 
-bool FSimpleHMD::IsHMDEnabled() const
+bool FUECardboard::IsHMDEnabled() const
 {
 	return true;
 }
 
-void FSimpleHMD::EnableHMD(bool enable)
+void FUECardboard::EnableHMD(bool enable)
 {    
-    //SetDistortedLensType(enable);
+    SetDistortedLensType(enable);
 }
 
-EHMDDeviceType::Type FSimpleHMD::GetHMDDeviceType() const
+EHMDDeviceType::Type FUECardboard::GetHMDDeviceType() const
 {
 	return EHMDDeviceType::DT_ES2GenericStereoMesh;
 }
 
-bool FSimpleHMD::GetHMDMonitorInfo(MonitorInfo& MonitorDesc)
+bool FUECardboard::GetHMDMonitorInfo(MonitorInfo& MonitorDesc)
 {
 	MonitorDesc.MonitorName = "";
 	MonitorDesc.MonitorId = 0;
@@ -65,40 +65,40 @@ bool FSimpleHMD::GetHMDMonitorInfo(MonitorInfo& MonitorDesc)
 	return false;
 }
 
-void FSimpleHMD::GetFieldOfView(float& OutHFOVInDegrees, float& OutVFOVInDegrees) const
+void FUECardboard::GetFieldOfView(float& OutHFOVInDegrees, float& OutVFOVInDegrees) const
 {
 	OutHFOVInDegrees = 0.0f;
 	OutVFOVInDegrees = 0.0f;
 }
 
-bool FSimpleHMD::DoesSupportPositionalTracking() const
+bool FUECardboard::DoesSupportPositionalTracking() const
 {
 	return false;
 }
 
-bool FSimpleHMD::HasValidTrackingPosition()
+bool FUECardboard::HasValidTrackingPosition()
 {
 	return false;
 }
 
-void FSimpleHMD::GetPositionalTrackingCameraProperties(FVector& OutOrigin, FQuat& OutOrientation, float& OutHFOV, float& OutVFOV, float& OutCameraDistance, float& OutNearPlane, float& OutFarPlane) const
+void FUECardboard::GetPositionalTrackingCameraProperties(FVector& OutOrigin, FQuat& OutOrientation, float& OutHFOV, float& OutVFOV, float& OutCameraDistance, float& OutNearPlane, float& OutFarPlane) const
 {
 }
 
-void FSimpleHMD::RebaseObjectOrientationAndPosition(FVector& OutPosition, FQuat& OutOrientation) const
+void FUECardboard::RebaseObjectOrientationAndPosition(FVector& OutPosition, FQuat& OutOrientation) const
 {
 }
 
-void FSimpleHMD::SetInterpupillaryDistance(float NewInterpupillaryDistance)
+void FUECardboard::SetInterpupillaryDistance(float NewInterpupillaryDistance)
 {
 }
 
-float FSimpleHMD::GetInterpupillaryDistance() const
+float FUECardboard::GetInterpupillaryDistance() const
 {
 	return 0.064f;
 }
 
-void FSimpleHMD::GetCurrentPose(FQuat& CurrentOrientation)
+void FUECardboard::GetCurrentPose(FQuat& CurrentOrientation)
 {
 	// very basic.  no head model, no prediction, using debuglocalplayer
 	ULocalPlayer* Player = GEngine->GetDebugLocalPlayer();
@@ -127,7 +127,7 @@ void FSimpleHMD::GetCurrentPose(FQuat& CurrentOrientation)
 	}
 }
 
-void FSimpleHMD::GetCurrentOrientationAndPosition(FQuat& CurrentOrientation, FVector& CurrentPosition)
+void FUECardboard::GetCurrentOrientationAndPosition(FQuat& CurrentOrientation, FVector& CurrentPosition)
 {
 	CurrentPosition = FVector(0.0f, 0.0f, 0.0f);
 
@@ -135,13 +135,13 @@ void FSimpleHMD::GetCurrentOrientationAndPosition(FQuat& CurrentOrientation, FVe
 	CurHmdOrientation = LastHmdOrientation = CurrentOrientation;
 }
 
-TSharedPtr<ISceneViewExtension, ESPMode::ThreadSafe> FSimpleHMD::GetViewExtension()
+TSharedPtr<ISceneViewExtension, ESPMode::ThreadSafe> FUECardboard::GetViewExtension()
 {
-	TSharedPtr<FSimpleHMD, ESPMode::ThreadSafe> ptr(AsShared());
+	TSharedPtr<FUECardboard, ESPMode::ThreadSafe> ptr(AsShared());
 	return StaticCastSharedPtr<ISceneViewExtension>(ptr);
 }
 
-void FSimpleHMD::ApplyHmdRotation(APlayerController* PC, FRotator& ViewRotation)
+void FUECardboard::ApplyHmdRotation(APlayerController* PC, FRotator& ViewRotation)
 {
 	ViewRotation.Normalize();
 
@@ -160,85 +160,90 @@ void FSimpleHMD::ApplyHmdRotation(APlayerController* PC, FRotator& ViewRotation)
 	ViewRotation = FRotator(DeltaControlOrientation * CurHmdOrientation);
 }
 
-void FSimpleHMD::UpdatePlayerCameraRotation(APlayerCameraManager* Camera, struct FMinimalViewInfo& POV)
+void FUECardboard::UpdatePlayerCameraRotation(APlayerCameraManager* Camera, struct FMinimalViewInfo& POV)
 {
 	return;
 }
 
-bool FSimpleHMD::IsChromaAbCorrectionEnabled() const
+bool FUECardboard::UpdatePlayerCamera(FQuat& CurrentOrientation, FVector& CurrentPosition)
 {
 	return false;
 }
 
-bool FSimpleHMD::Exec( UWorld* InWorld, const TCHAR* Cmd, FOutputDevice& Ar )
+bool FUECardboard::IsChromaAbCorrectionEnabled() const
 {
 	return false;
 }
 
-void FSimpleHMD::OnScreenModeChange(EWindowMode::Type WindowMode)
-{
-}
-
-bool FSimpleHMD::IsPositionalTrackingEnabled() const
+bool FUECardboard::Exec( UWorld* InWorld, const TCHAR* Cmd, FOutputDevice& Ar )
 {
 	return false;
 }
 
-bool FSimpleHMD::EnablePositionalTracking(bool enable)
+void FUECardboard::OnScreenModeChange(EWindowMode::Type WindowMode)
+{
+}
+
+bool FUECardboard::IsPositionalTrackingEnabled() const
 {
 	return false;
 }
 
-bool FSimpleHMD::IsHeadTrackingAllowed() const
+bool FUECardboard::EnablePositionalTracking(bool enable)
+{
+	return false;
+}
+
+bool FUECardboard::IsHeadTrackingAllowed() const
 {
 	return true;
 }
 
-bool FSimpleHMD::IsInLowPersistenceMode() const
+bool FUECardboard::IsInLowPersistenceMode() const
 {
 	return false;
 }
 
-void FSimpleHMD::EnableLowPersistenceMode(bool Enable)
+void FUECardboard::EnableLowPersistenceMode(bool Enable)
 {
 }
 
-void FSimpleHMD::ResetOrientationAndPosition(float yaw)
+void FUECardboard::ResetOrientationAndPosition(float yaw)
 {
 	ResetOrientation(yaw);
 	ResetPosition();
 }
 
-void FSimpleHMD::ResetOrientation(float Yaw)
+void FUECardboard::ResetOrientation(float Yaw)
 {
 }
-void FSimpleHMD::ResetPosition()
-{
-}
-
-void FSimpleHMD::SetClippingPlanes(float NCP, float FCP)
+void FUECardboard::ResetPosition()
 {
 }
 
-void FSimpleHMD::SetBaseRotation(const FRotator& BaseRot)
+void FUECardboard::SetClippingPlanes(float NCP, float FCP)
 {
 }
 
-FRotator FSimpleHMD::GetBaseRotation() const
+void FUECardboard::SetBaseRotation(const FRotator& BaseRot)
+{
+}
+
+FRotator FUECardboard::GetBaseRotation() const
 {
 	return FRotator::ZeroRotator;
 }
 
-void FSimpleHMD::SetBaseOrientation(const FQuat& BaseOrient)
+void FUECardboard::SetBaseOrientation(const FQuat& BaseOrient)
 {
 }
 
-FQuat FSimpleHMD::GetBaseOrientation() const
+FQuat FUECardboard::GetBaseOrientation() const
 {
 	return FQuat::Identity;
 }
 
-void FSimpleHMD::DrawDistortionMesh_RenderThread(struct FRenderingCompositePassContext& Context, const FIntPoint& TextureSize)
+void FUECardboard::DrawDistortionMesh_RenderThread(struct FRenderingCompositePassContext& Context, const FIntPoint& TextureSize)
 {    
 	float ClipSpaceQuadZ = 0.0f;
 	FMatrix QuadTexTransform = FMatrix::Identity;
@@ -254,17 +259,17 @@ void FSimpleHMD::DrawDistortionMesh_RenderThread(struct FRenderingCompositePassC
     DrawIndexedPrimitiveUP(Context.RHICmdList, PT_TriangleList, 0, LensNumVerts, LensNumTris, LensIndices, sizeof(uint16), LensVerts, sizeof(FDistortionVertex));
 }
 
-bool FSimpleHMD::IsStereoEnabled() const
+bool FUECardboard::IsStereoEnabled() const
 {
 	return true;
 }
 
-bool FSimpleHMD::EnableStereo(bool stereo)
+bool FUECardboard::EnableStereo(bool stereo)
 {
 	return true;
 }
 
-void FSimpleHMD::AdjustViewRect(EStereoscopicPass StereoPass, int32& X, int32& Y, uint32& SizeX, uint32& SizeY) const
+void FUECardboard::AdjustViewRect(EStereoscopicPass StereoPass, int32& X, int32& Y, uint32& SizeX, uint32& SizeY) const
 {    
 	SizeX = SizeX / 2;
 	if( StereoPass == eSSP_RIGHT_EYE )
@@ -273,7 +278,7 @@ void FSimpleHMD::AdjustViewRect(EStereoscopicPass StereoPass, int32& X, int32& Y
 	}
 }
 
-void FSimpleHMD::CalculateStereoViewOffset(const enum EStereoscopicPass StereoPassType, const FRotator& ViewRotation, const float WorldToMeters, FVector& ViewLocation)
+void FUECardboard::CalculateStereoViewOffset(const enum EStereoscopicPass StereoPassType, const FRotator& ViewRotation, const float WorldToMeters, FVector& ViewLocation)
 {    
 	if( StereoPassType != eSSP_FULL)
 	{
@@ -283,7 +288,7 @@ void FSimpleHMD::CalculateStereoViewOffset(const enum EStereoscopicPass StereoPa
 	}
 }
 
-FMatrix FSimpleHMD::GetStereoProjectionMatrix(const enum EStereoscopicPass StereoPassType, const float FOV) const
+FMatrix FUECardboard::GetStereoProjectionMatrix(const enum EStereoscopicPass StereoPassType, const float FOV) const
 {
     const float ProjectionCenterOffset = 0.151976421f;
 	const float PassProjectionOffset = (StereoPassType == eSSP_LEFT_EYE) ? ProjectionCenterOffset : -ProjectionCenterOffset;
@@ -305,18 +310,18 @@ FMatrix FSimpleHMD::GetStereoProjectionMatrix(const enum EStereoscopicPass Stere
 		//* FTranslationMatrix(FVector(PassProjectionOffset,0,0)); // Pass info down to adjust offset
 }
 
-void FSimpleHMD::InitCanvasFromView(FSceneView* InView, UCanvas* Canvas)
+void FUECardboard::InitCanvasFromView(FSceneView* InView, UCanvas* Canvas)
 {
 }
 
-void FSimpleHMD::GetEyeRenderParams_RenderThread(const FRenderingCompositePassContext& Context, FVector2D& EyeToSrcUVScaleValue, FVector2D& EyeToSrcUVOffsetValue) const
+void FUECardboard::GetEyeRenderParams_RenderThread(const FRenderingCompositePassContext& Context, FVector2D& EyeToSrcUVScaleValue, FVector2D& EyeToSrcUVOffsetValue) const
 {
 	EyeToSrcUVOffsetValue = FVector2D::ZeroVector;
 	EyeToSrcUVScaleValue = FVector2D(1.0f, 1.0f);
 }
 
 
-void FSimpleHMD::SetupViewFamily(FSceneViewFamily& InViewFamily)
+void FUECardboard::SetupViewFamily(FSceneViewFamily& InViewFamily)
 {
 	InViewFamily.EngineShowFlags.MotionBlur = 0;
 	InViewFamily.EngineShowFlags.HMDDistortion = true;
@@ -324,7 +329,7 @@ void FSimpleHMD::SetupViewFamily(FSceneViewFamily& InViewFamily)
 	InViewFamily.EngineShowFlags.StereoRendering = IsStereoEnabled();
 }
 
-void FSimpleHMD::SetupView(FSceneViewFamily& InViewFamily, FSceneView& InView)
+void FUECardboard::SetupView(FSceneViewFamily& InViewFamily, FSceneView& InView)
 {
 	InView.BaseHmdOrientation = FQuat(FRotator(0.0f,0.0f,0.0f));
 	InView.BaseHmdLocation = FVector(0.f);
@@ -332,17 +337,17 @@ void FSimpleHMD::SetupView(FSceneViewFamily& InViewFamily, FSceneView& InView)
 	InViewFamily.bUseSeparateRenderTarget = false;
 }
 
-void FSimpleHMD::PreRenderView_RenderThread(FRHICommandListImmediate& RHICmdList, FSceneView& InView)
+void FUECardboard::PreRenderView_RenderThread(FRHICommandListImmediate& RHICmdList, FSceneView& InView)
 {
 	check(IsInRenderingThread());
 }
 
-void FSimpleHMD::PreRenderViewFamily_RenderThread(FRHICommandListImmediate& RHICmdList, FSceneViewFamily& ViewFamily)
+void FUECardboard::PreRenderViewFamily_RenderThread(FRHICommandListImmediate& RHICmdList, FSceneViewFamily& ViewFamily)
 {
 	check(IsInRenderingThread());
 }
 
-FSimpleHMD::FSimpleHMD() :
+FUECardboard::FUECardboard() :
 	CurHmdOrientation(FQuat::Identity),
 	LastHmdOrientation(FQuat::Identity),
 	DeltaControlRotation(FRotator::ZeroRotator),
@@ -353,16 +358,16 @@ FSimpleHMD::FSimpleHMD() :
     XformDistortionMesh(1.125f, 2.0f); // Adjust aspect ratio of device here !
 }
 
-FSimpleHMD::~FSimpleHMD()
+FUECardboard::~FUECardboard()
 {
 }
 
-bool FSimpleHMD::IsInitialized() const
+bool FUECardboard::IsInitialized() const
 {
 	return true;
 }
 
-void FSimpleHMD::SetDistortedLensType(bool state)
+void FUECardboard::SetDistortedLensType(bool state)
 {
     LensNumVerts = state ? LensDistortNumVerts : LensNodNumVerts;
     LensNumTris = state ? LensDistortNumTris : LensNodNumTris;
@@ -370,7 +375,7 @@ void FSimpleHMD::SetDistortedLensType(bool state)
     LensIndices = state ? LensDistortIndices : LensNodIndices;
 }
 
-void FSimpleHMD::XformDistortionMesh(float xs, float ys)
+void FUECardboard::XformDistortionMesh(float xs, float ys)
 {
     // This scale stransform could be part of a world matrix
     for(uint32 i=0; i<LensDistortNumVerts; ++i)
@@ -385,7 +390,7 @@ void FSimpleHMD::XformDistortionMesh(float xs, float ys)
 // Lens-mesh data
 //
 
-FDistortionVertex FSimpleHMD::LensNodVerts[8] = {
+FDistortionVertex FUECardboard::LensNodVerts[8] = {
     // left eye
     { FVector2D(-0.9f, -0.9f), FVector2D(0.0f, 1.0f), FVector2D(0.0f, 1.0f), FVector2D(0.0f, 1.0f), 1.0f, 0.0f },
     { FVector2D(-0.1f, -0.9f), FVector2D(0.5f, 1.0f), FVector2D(0.5f, 1.0f), FVector2D(0.5f, 1.0f), 1.0f, 0.0f },
@@ -397,9 +402,9 @@ FDistortionVertex FSimpleHMD::LensNodVerts[8] = {
     { FVector2D(0.9f, 0.9f), FVector2D(1.0f, 0.0f), FVector2D(1.0f, 0.0f), FVector2D(1.0f, 0.0f), 1.0f, 0.0f },
     { FVector2D(0.1f, 0.9f), FVector2D(0.5f, 0.0f), FVector2D(0.5f, 0.0f), FVector2D(0.5f, 0.0f), 1.0f, 0.0f },
 };
-uint16 FSimpleHMD::LensNodIndices[12] = { 0, 1, 2, 0, 2, 3, 4, 5, 6, 4, 6, 7 };
+uint16 FUECardboard::LensNodIndices[12] = { 0, 1, 2, 0, 2, 3, 4, 5, 6, 4, 6, 7 };
 
-FDistortionVertex FSimpleHMD::LensDistortVerts[3200] = {
+FDistortionVertex FUECardboard::LensDistortVerts[3200] = {
 	// left eye
 	{ FVector2D(-0.83758f, 0.40321f), FVector2D(0.00000f, 0.00000f), FVector2D(0.00000f, 0.00000f), FVector2D(0.00000f, 0.00000f), 1.0f, 0.0f },
 	{ FVector2D(-0.82069f, 0.40692f), FVector2D(0.01282f, 0.00000f), FVector2D(0.01282f, 0.00000f), FVector2D(0.01282f, 0.00000f), 1.0f, 0.0f },
@@ -3604,7 +3609,7 @@ FDistortionVertex FSimpleHMD::LensDistortVerts[3200] = {
 	{ FVector2D(0.83758f, -0.43756f), FVector2D(1.00000f, 1.00000f), FVector2D(1.00000f, 1.00000f), FVector2D(1.00000f, 1.00000f), 1.0f, 0.0f },
 	};
 
-uint16 FSimpleHMD::LensDistortIndices[18252] = {
+uint16 FUECardboard::LensDistortIndices[18252] = {
 	2687, 2688, 2727, 2588, 2589, 2629, 2255, 2295, 2254, 2186, 2146, 2147, 2349, 2350, 2389, 766, 725, 726, 1128, 1168, 1167, 426, 387, 427, 1859, 
 	1858, 1818, 776, 775, 735, 980, 1020, 979, 3001, 3040, 3000, 1902, 1941, 1901, 125, 85, 126, 2230, 2190, 2191, 982, 1023, 1022, 580, 579, 
 	540, 2236, 2196, 2197, 2629, 2670, 2669, 2506, 2547, 2546, 2549, 2590, 2589, 1750, 1751, 1790, 1818, 1817, 1777, 227, 228, 267, 296, 337, 336, 

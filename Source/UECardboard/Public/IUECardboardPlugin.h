@@ -9,7 +9,7 @@
  * The public interface to this module.  In most cases, this interface is only public to sibling modules 
  * within this plugin.
  */
-class ISimpleHMDPlugin : public IHeadMountedDisplayModule
+class IUECardboardPlugin : public IHeadMountedDisplayModule
 {
 
 public:
@@ -20,9 +20,9 @@ public:
 	 *
 	 * @return Returns singleton instance, loading the module on demand if needed
 	 */
-	static inline ISimpleHMDPlugin& Get()
+	static inline IUECardboardPlugin& Get()
 	{
-		return FModuleManager::LoadModuleChecked< ISimpleHMDPlugin >( "UE4Cardboard" );
+		return FModuleManager::LoadModuleChecked< IUECardboardPlugin >( "UE4Cardboard" );
 	}
 
 	/**

@@ -6,7 +6,7 @@
 	"VersionName" : "1.0",
 	"CreatedBy" : "NivalVR",
 	"CreatedByURL" : "http://nivalvr.com",
-	"EngineVersion" : "4.2.0",
+	"EngineVersion" : "4.11.0",
 	"Description" : "UE4 plugin for simple cardboard usage with distortition.",
 	"Category" : "Virtual Reality",
 	"EnabledByDefault" : false,
