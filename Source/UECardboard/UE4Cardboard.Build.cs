@@ -10,7 +10,7 @@ namespace UnrealBuildTool.Rules
 		{
 			PrivateIncludePaths.AddRange(
 				new string[] {
-					"SimpleHMD/Private",
+                    "UECardboard/Private",
 					Path.GetDirectoryName( RulesCompiler.GetModuleFilename("Renderer"))+"/Private",
 					// ... add other private include paths required here ...
 				}
