@@ -1,3 +1,8 @@
+# Please use the official Google Cardboard (Daydream) plugin in Unreal Engine 4.12+
+We are happy that the custom-VR-plugin-times is over, thanks to Epic Games and UE4 community :)
+https://www.unrealengine.com/blog/unreal-engine-4-12-released
+https://www.unrealengine.com/blog/unreal-engine-supports-google-daydream-vr
+
 # UE4Cardboard Plugin
 
 #### Description:
